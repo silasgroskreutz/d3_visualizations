@@ -25,7 +25,7 @@ d3.json('menu.json').then(data => {
   const y = d3
     .scaleLinear()
     .domain([0, d3.max(data, d => d.orders)])
-    .range([0, graphHeight]);
+    .range([graphHeight, 0]);
 
   // const min = d3.min(data, d => d.orders);
   // const max = d3.max(data, d => d.orders);
@@ -43,18 +43,20 @@ d3.json('menu.json').then(data => {
 
   rects
     .attr('width', x.bandwidth)
-    .attr('height', d => y(d.orders))
+    .attr('height', d => graphHeight - y(d.orders))
     .attr('fill', 'orange')
-    .attr('x', d => x(d.name));
+    .attr('x', d => x(d.name))
+    .attr('y', d => y(d.orders));
 
   //append the enter selection to the DOM
   rects
     .enter()
     .append('rect')
     .attr('width', x.bandwidth)
-    .attr('height', d => y(d.orders))
+    .attr('height', d => graphHeight - y(d.orders))
     .attr('fill', 'orange')
-    .attr('x', d => x(d.name));
+    .attr('x', d => x(d.name))
+    .attr('y', d => y(d.orders));
 
   // create and call the axes, as they depend on the data calcs, they are here
   const xAxis = d3.axisBottom(x);

@@ -4,8 +4,12 @@ const svg = d3.select('svg');
 d3.json('menu.json').then(data => {
   const y = d3
     .scaleLinear()
-    .domain([0, 1000])
+    .domain([0, d3.max(data, d => d.orders)])
     .range([0, 500]);
+
+  // const min = d3.min(data, d => d.orders);
+  // const max = d3.max(data, d => d.orders);
+  // const extend = d3.extend(data, d => d.orders);
 
   const x = d3
     .scaleBand()

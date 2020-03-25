@@ -80,18 +80,8 @@ const update = data => {
 };
 
 //getting data from firestore
-db.collection('dishes')
-  .get()
-  .then(res => {
-    var data = [];
-    res.docs.forEach(doc => {
-      data.push(doc.data());
-    });
-
-    update(data);
-
-    d3.interval(() => {
-      data[0].orders += 50;
-      //update(data);
-    }, 1000);
+db.collection('dishes').onSnapshot(res => {
+  res.docChanges().forEach(change => {
+    console.log(change.doc.data());
   });
+});
